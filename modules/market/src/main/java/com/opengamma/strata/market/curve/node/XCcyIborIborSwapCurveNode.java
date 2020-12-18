@@ -243,6 +243,9 @@ public final class XCcyIborIborSwapCurveNode
     BuySell buySell = quantity > 0 ? BuySell.SELL : BuySell.BUY;
     double spreadLegNotional = Math.abs(quantity);
     double flatLegNotional = spreadLegNotional * rate;
+    if (template.getConvention().getSpreadLeg().isIntermediateNotionalExchange()) {
+      spreadLegNotional = flatLegNotional;
+    }
     return template.createTrade(
         marketData.getValuationDate(), buySell, spreadLegNotional, flatLegNotional, marketQuote, refData);
   }
